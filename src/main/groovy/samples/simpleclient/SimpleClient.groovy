@@ -47,12 +47,21 @@ class SimpleClient {
 
         SimpleText simpleCrypto = new SimpleText(cryptoStock, cryptoStock.url)
 
+
+        GenericWebsiteSource bundesliga = new GenericWebsiteSource()
+        bundesliga.name = "Bundesliga Spieltag"
+        bundesliga.url = new URL("https://www.openligadb.de/api/getmatchdata/bl1")
+        bundesliga.gatherScript = new GatherScript(engine: "groovy", script: "src/main/groovy/samples/gatherscripts/groovy/sport/bundesligaresults.groovy")
+
+        SimpleText simpleBundesliga = new SimpleText(bundesliga, bundesliga.url)
+
         def runs = 0
         while (runs < 2) {
             println "########################### run $runs"
             List<Information> informationList = simpleNews.gather()
             informationList += simpleWeather.gather()
             informationList += simpleCrypto.gather()
+            informationList += simpleBundesliga.gather()
 
             informationList.each { information ->
                 if (!gatheredInformationList.find {it.source == information.source && it.id == information.id}) {
