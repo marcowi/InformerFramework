@@ -1,0 +1,9 @@
+@startuml
+(Weatherpage1.com) --> (GatherScript WP1)
+(Weatherpage2.com) --> (GatherScript WP2)
+(GatherScript WP1) --> (WeatherSource1)
+(GatherScript WP2) --> (WeatherSource2)
+(WeatherSource1) ---> (SimpleWeather [Consumer])
+(WeatherSource2) ---> (SimpleWeather [Consumer])
+(SimpleWeather [Consumer]) --> (Information)
+@enduml
