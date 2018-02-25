@@ -1,9 +1,11 @@
 package samples.simpleclient
 
 import informer.Information
+import informer.consumer.base.SimpleText
 import informer.consumer.news.SimpleNews
 import informer.consumer.weather.SimpleWeather
 import informer.sources.website.blog.BlogSource
+import informer.sources.website.generic.GenericWebsiteSource
 import informer.sources.website.weather.WeatherSource
 import informer.utils.GatherScript
 
@@ -38,27 +40,38 @@ class SimpleClient {
 
         SimpleWeather simpleWeather = new SimpleWeather([weatherBerlin])
 
+        GenericWebsiteSource cryptoStock = new GenericWebsiteSource()
+        cryptoStock.name = "Crypto"
+        cryptoStock.url = new URL("https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=EUR")
+        cryptoStock.gatherScript = new GatherScript(engine: "groovy", script: "src/main/groovy/samples/gatherscripts/groovy/stock/cryptocurrencies.groovy")
+
+        SimpleText simpleCrypto = new SimpleText(cryptoStock, cryptoStock.url)
+
         def runs = 0
-        while (runs < 3) {
+        while (runs < 2) {
             println "########################### run $runs"
             List<Information> informationList = simpleNews.gather()
             informationList += simpleWeather.gather()
+            informationList += simpleCrypto.gather()
 
             informationList.each { information ->
                 if (!gatheredInformationList.find {it.source == information.source && it.id == information.id}) {
                     gatheredInformationList << information
 
+
                     if (information.source instanceof BlogSource) {
                         println "$information.source.name | $information.content.headline"
                     } else if (information.source instanceof WeatherSource) {
                         println "$information.source.name | Temp: $information.content.temperature°C Humidity: $information.content.humidity Condition: $information.content.weathertext"
+                    } else if (information.source instanceof GenericWebsiteSource) {
+                        println "$information.source.name | Content: $information.content"
                     }
 
                 }
             }
             println ""
 
-            sleep(2000)
+            sleep(1000)
             runs++
         }
 

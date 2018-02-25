@@ -2,10 +2,10 @@
 Groovy core implementation
 #
 ##### Run tests
-./gradlew cleanTest test
+`./gradlew cleanTest test`
 
 ##### Run samples
-./gradlew runSimpleClient
+`./gradlew runSimpleClient`
 #
 
 ##### Overview
