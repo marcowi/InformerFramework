@@ -1,12 +1,12 @@
 # InformerFramework
 Groovy core implementation
 #
-#####Run tests
+##### Run tests
 ./gradlew cleanTest test
 
-#####Run samples
+##### Run samples
 ./gradlew runSimpleClient
 #
 
-#####Overview
+##### Overview
 ![Alt text](extra/diagrams/weather.png?raw=true)
