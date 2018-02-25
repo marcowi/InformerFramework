@@ -1,0 +1,28 @@
+group 'com.codexy'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.10'
+    compile 'org.jsoup:jsoup:1.11.1'
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
+}
+
+task runSimpleClient (dependsOn: 'classes', type: JavaExec) {
+    main = 'samples.simpleclient.SimpleClient'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+configure(runSimpleClient) {
+    group = 'Samples'
+    description = 'Demonstrates the basics of the framework'
+}
